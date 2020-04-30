@@ -9,18 +9,69 @@ from matplotlib import pyplot as plt
 
 import tkinter as tk
 
-graph = ""
 
 def DisplayGraphs(graphName):
 
-    assert(graphName != "")
-    graph = graphName.get()
-    x = np.arange(1,11) 
-    y = 2 * x + 5 
-    plt.title("Matplotlib demo") 
-    plt.xlabel("x axis caption") 
-    plt.ylabel("y axis caption") 
-    plt.plot(x,y,"ob") 
+    options = ['class','size','distribution','activity','evolution','previous_24_hours','historical_complexity','become_complex','area','area_of_largest_spot','cClassFlares','mClassFlares','xClassFlares']
+
+    df = pandas.read_csv("flare1.csv")
+
+
+    x = df.dropna(subset=['class'])
+    y = df.dropna(subset=['size'])
+
+    if(graphName == 'class'):
+
+        plot_series = df.loc[:,'class'].rename('')
+        plot_series.value_counts().plot.pie()
+
+    elif(graphName == 'size'):
+
+        plot_series = df.loc[:,'size'].rename('')
+        plot_series.value_counts().plot.pie()
+    
+    elif(graphName == 'distribution'):
+
+        plot_series = df.loc[:,'distribution'].rename('')
+        plot_series.value_counts().plot.pie()
+        
+    elif(graphName == 'activity'):
+        df.loc[:,'activity'].plot.kde()
+        
+    elif(graphName == 'evolution'):
+        df.loc[:,'activity'].plot.kde()
+        
+    elif(graphName == 'previous_24_hours'):
+        df.loc[:,'activity'].plot.kde()
+        
+    elif(graphName == 'historical_complexity'):
+        df.loc[:,'activity'].plot.kde()
+        
+    elif(graphName == 'become_complex'):
+        df.loc[:,'activity'].plot.kde()
+        
+    elif(graphName == 'area'):
+        df.loc[:,'activity'].plot.kde()
+        
+    elif(graphName == 'area_of_largest_spot'):
+        df.loc[:,'activity'].plot.kde()
+        
+    elif(graphName == 'cClassFlares'):
+        df.loc[:,'activity'].plot.kde()
+
+    elif(graphName == 'mClassFlares'):
+        df.loc[:,'activity'].plot.kde()
+        
+    elif(graphName == 'xClassFlares'):
+        df.loc[:,'activity'].plot.kde()
+
+    # df.loc[:,'activity'].plot.kde()
+    # df.loc[:,'activity'].plot.hist(bins=5)
+    # df.loc[:,'activity'].value_counts().plot.bar()
+    # df.loc[:,'activity'].value_counts().plot.pie()
+    # df.plot.scatter(x='activity', y='evolution')
+    #plt.figure(); df.plot(); plt.legend(loc='activity')
+
     plt.show() 
 
 
@@ -45,17 +96,7 @@ class StartPage(tk.Frame):
         tk.Frame.configure(self,bg="gray45")
         tk.Frame.configure(master,bg="gray45")
         master.geometry('{}x{}'.format(400, 600))
-        # self.photos = []
-        # photo = ImageTk.PhotoImage(Image.open("But_Pics/all_mountains.png"))
-        # self.photos.append(photo)
-        # photo = ImageTk.PhotoImage(Image.open("But_Pics/nearby_mountains.png"))
-        # self.photos.append(photo)
-        # photo = ImageTk.PhotoImage(Image.open("But_Pics/saved_mountains.png"))
-        # self.photos.append(photo)
-        # photo = ImageTk.PhotoImage(Image.open("But_Pics/hourly_weather.png"))
-        # self.photos.append(photo)
-        # photo = ImageTk.PhotoImage(Image.open("But_Pics/user_info.png"))
-        # self.photos.append(photo)
+
 
 
 
@@ -66,11 +107,6 @@ class StartPage(tk.Frame):
                   command=lambda: master.switch_frame(GraphsFrame)).pack()
         tk.Button(self, text="Data Statistics",bg="gray45",
                   command=lambda: master.switch_frame(StatsFrame)).pack()        
-        # tk.Button(self, text="Edit User Info",bg="gray45", image = self.photos[4],
-        #           command=lambda: master.switch_frame(EditUserInfo)).pack()
-
-        # self.photo = ImageTk.PhotoImage(Image.open("mountain.jpg"))
-        # tk.Label(self, image = self.photo, compound="top").pack(side="top", fill="x", pady=5)
 
 class GraphsFrame(tk.Frame):
     def __init__(self, master):
@@ -83,11 +119,22 @@ class GraphsFrame(tk.Frame):
 
 
         name = tk.StringVar()
-        graphLabel = tk.Label(self, text="Enter Graph Wanted").pack()
-        graphName = tk.Entry(self, textvariable = name).pack()
         
         #Add button
-        self.logbtn = Button(self, text="Get Graph", bg = "gray45", command=lambda: DisplayGraphs(name)).pack()
+        self.logbtn = Button(self, text="Get Class", bg = "gray45", command=lambda: DisplayGraphs('class')).pack()
+        self.logbtn = Button(self, text="Get Size", bg = "gray45", command=lambda: DisplayGraphs('size')).pack()
+        self.logbtn = Button(self, text="Get Distribution", bg = "gray45", command=lambda: DisplayGraphs('distribution')).pack()
+        self.logbtn = Button(self, text="Get activity", bg = "gray45", command=lambda: DisplayGraphs('activity')).pack()
+        self.logbtn = Button(self, text="Get evolution", bg = "gray45", command=lambda: DisplayGraphs('evolution')).pack()
+        self.logbtn = Button(self, text="Get previous_24_hours", bg = "gray45", command=lambda: DisplayGraphs('previous_24_hours')).pack()
+        self.logbtn = Button(self, text="Get historical_complexity", bg = "gray45", command=lambda: DisplayGraphs('historical_complexity')).pack()
+        self.logbtn = Button(self, text="Get become_complex", bg = "gray45", command=lambda: DisplayGraphs('become_complex')).pack()
+        self.logbtn = Button(self, text="Get area", bg = "gray45", command=lambda: DisplayGraphs('area')).pack()
+        self.logbtn = Button(self, text="Get area_of_largest_spot", bg = "gray45", command=lambda: DisplayGraphs('area_of_largest_spot')).pack()
+        self.logbtn = Button(self, text="Get cClassFlares", bg = "gray45", command=lambda: DisplayGraphs('cClassFlares')).pack()
+        self.logbtn = Button(self, text="Get mClassFlares", bg = "gray45", command=lambda: DisplayGraphs('mClassFlares')).pack()
+        self.logbtn = Button(self, text="Get xClassFlares", bg = "gray45", command=lambda: DisplayGraphs('xClassFlares')).pack()
+
 
         self.pack()
 
