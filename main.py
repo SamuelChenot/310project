@@ -198,12 +198,12 @@ class SampleApp(tk.Tk):
 
     def draw_MsgPanel(self):
         MsgPanel(self,
-                 ["One of the new Ttk widgets is a tree widget ",
-                  "which can be configured to display multiple columns of data without ",
-                  "displaying the tree itself. This is a simple way to build a listbox that has multiple ",
-                  "columns.\n\n",
-                  "Click a column heading to re-sort the data. ",
-                  "Drag a column boundary to resize a column."])
+                 ["This app is intended to display solar flare data ",
+                  "the data you can currently see is class, size, distribution, activity",
+                  "evolution, previous 24 hours, historical compexity, became complex, area",
+                  "area of largest spot, number of C-class, M-class, and X-class flares.\n\n",
+                  "Within the solar flare information tab we have the direct list of data availible for the flare.",
+                  "The app also contains pie charts of each value, with a data statistics page aswell."])
 
         # self._create_demo_panel()
 
@@ -219,12 +219,14 @@ class StartPage(tk.Frame):
 
 
 
-        tk.Label(self, text="Solar Flares",bg="gray45", font=('Helvetica', 18, "bold")).pack(side="top", fill="x", pady=5)
-        tk.Button(self, text="Solar Flare Information",bg="gray45",
+        tk.Label(self, text="Solar Flares",bg="gray45", font=('Helvetica', 18, "bold"), padx=10, pady=10).pack(side="top", fill="x", pady=5)
+        tk.Button(self, text="Solar Flare Information",bg="gray45", padx=10, pady=10,
                   command=lambda: master.switch_frame(SolarFlareFrame)).pack()
-        tk.Button(self, text="Graphs",bg="gray45",
+        self.logbtn = Label(self,bg="gray45").pack()
+        tk.Button(self, text="Graphs",bg="gray45", padx=10, pady=10,
                   command=lambda: master.switch_frame(GraphsFrame)).pack()
-        tk.Button(self, text="Data Statistics",bg="gray45",
+        self.logbtn = Label(self,bg="gray45").pack()
+        tk.Button(self, text="Data Statistics",bg="gray45", padx=10, pady=10,
                   command=lambda: master.switch_frame(StatsFrame)).pack()        
 
 class GraphsFrame(tk.Frame):
@@ -233,7 +235,7 @@ class GraphsFrame(tk.Frame):
         #Formats the size of the window
         master.geometry('{}x{}'.format(400, 600))
         tk.Frame.configure(self,bg="gray45")
-        tk.Button(self, text="Go back to start page",
+        tk.Button(self, text="Go back to start page", padx=10, pady=10,
                   command=lambda: master.switch_frame(StartPage)).pack()
 
 
