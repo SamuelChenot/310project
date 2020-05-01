@@ -9,6 +9,8 @@ from matplotlib import pyplot as plt
 from tkinter.font import Font
 import tkinter as tk
 
+df = pandas.read_csv("flare1.csv")
+
 class MsgPanel(ttk.Frame):
     def __init__(self, master, msgtxt):
         ttk.Frame.__init__(self, master)
@@ -48,7 +50,7 @@ class SolarFlareFrame(tk.Frame):
         f.pack(side=TOP, fill=BOTH, expand=Y)
 
         # create the tree and scrollbars
-        self.dataCols = ('country', 'capital', 'currency')
+        self.dataCols = tuple(df.columns)
         self.tree = ttk.Treeview(columns=self.dataCols, show='headings')
 
         ysb = tk.Scrollbar(orient=VERTICAL, command=self.tree.yview)
@@ -67,37 +69,7 @@ class SolarFlareFrame(tk.Frame):
 
     def _load_data(self):
 
-        self.data = [
-            ("Argentina", "Buenos Aires", "ARS"),
-            ("Australia", "Canberra", "AUD"),
-            ("Brazil", "Brazilia", "BRL"),
-            ("Canada", "Ottawa", "CAD"),
-            ("China", "Beijing", "CNY"),
-            ("France", "Paris", "EUR"),
-            ("Germany", "Berlin", "EUR"),
-            ("India", "New Delhi", "INR"),
-            ("Italy", "Rome", "EUR"),
-            ("Japan", "Tokyo", "JPY"),
-            ("Mexico", "Mexico City", "MXN"),
-            ("Russia", "Moscow", "RUB"),
-            ("South Africa", "Pretoria", "ZAR"),
-            ("United Kingdom", "London", "GBP"),
-            ("United States", "Washington, D.C.", "USD"),
-            ("Argentina", "Buenos Aires", "ARS"),
-            ("Australia", "Canberra", "AUD"),
-            ("Brazil", "Brazilia", "BRL"),
-            ("Canada", "Ottawa", "CAD"),
-            ("China", "Beijing", "CNY"),
-            ("France", "Paris", "EUR"),
-            ("Germany", "Berlin", "EUR"),
-            ("India", "New Delhi", "INR"),
-            ("Italy", "Rome", "EUR"),
-            ("Japan", "Tokyo", "JPY"),
-            ("Mexico", "Mexico City", "MXN"),
-            ("Russia", "Moscow", "RUB"),
-            ("South Africa", "Pretoria", "ZAR"),
-            ("United Kingdom", "London", "GBP"),
-            ("United States", "Washington, D.C.", "USD")]
+        self.data = list(map(tuple, df.to_numpy()))
 
         # configure column headings
         for c in self.dataCols:
@@ -134,9 +106,6 @@ class SolarFlareFrame(tk.Frame):
 def DisplayGraphs(graphName):
 
     options = ['class','size','distribution','activity','evolution','previous_24_hours','historical_complexity','become_complex','area','area_of_largest_spot','cClassFlares','mClassFlares','xClassFlares']
-
-    df = pandas.read_csv("flare1.csv")
-
 
     x = df.dropna(subset=['class'])
     y = df.dropna(subset=['size'])
