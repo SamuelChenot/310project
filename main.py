@@ -10,6 +10,10 @@ from tkinter.font import Font
 import tkinter as tk
 
 df = pandas.read_csv("flare1.csv")
+stats = df.describe()
+stats.index.name = ''
+stats.reset_index(inplace=True)
+
 
 class MsgPanel(ttk.Frame):
     def __init__(self, master, msgtxt):
@@ -244,7 +248,86 @@ class GraphsFrame(tk.Frame):
 
         self.pack()
 
+class StatsFrame(tk.Frame):
+    # class variable to track direction of column
+    # header sort
+    SortDir = True  # descending
 
+    def __init__(self, isapp=True, name='mclistdemo'):
+        tk.Frame.__init__(self, name=name)
+        self.pack(expand=Y, fill=BOTH)
+        self.master.title('Multi-Column List Demo')
+        self.isapp = isapp
+        self._create_demo_panel()
+        # Formats the size of the window
+        self.master.geometry('{}x{}'.format(400, 600))
+        tk.Frame.configure(self, bg="gray45")
+        tk.Button(self, text="Go back to start page",
+                  command=lambda: self.master.switch_frame(StartPage)).pack()
+
+    def _create_demo_panel(self):
+        demoPanel = Frame(self)
+        demoPanel.pack(side=TOP, fill=BOTH, expand=Y)
+
+        self._create_treeview(demoPanel)
+        self._load_data()
+
+    def _create_treeview(self, parent):
+        f = tk.Frame(parent)
+        f.pack(side=TOP, fill=BOTH, expand=Y)
+
+        # create the tree and scrollbars
+        self.dataCols = tuple(stats.columns)
+        self.tree = ttk.Treeview(columns=self.dataCols, show='headings')
+
+        ysb = tk.Scrollbar(orient=VERTICAL, command=self.tree.yview)
+        xsb = tk.Scrollbar(orient=HORIZONTAL, command=self.tree.xview)
+        self.tree['yscroll'] = ysb.set
+        self.tree['xscroll'] = xsb.set
+
+        # add tree and scrollbars to frame
+        self.tree.grid(in_=f, row=0, column=0, sticky=NSEW)
+        ysb.grid(in_=f, row=0, column=1, sticky=NS)
+        xsb.grid(in_=f, row=1, column=0, sticky=EW)
+
+        # set frame resize priorities
+        f.rowconfigure(0, weight=1)
+        f.columnconfigure(0, weight=1)
+
+    def _load_data(self):
+        self.data = list(map(tuple, stats.to_numpy()))
+
+        # configure column headings
+        for c in self.dataCols:
+            self.tree.heading(c, text=c.title(),
+                              command=lambda c=c: self._column_sort(c, MCListDemo.SortDir))
+            self.tree.column(c, width=Font().measure(c.title()))
+
+        # add data to the tree
+        for item in self.data:
+            self.tree.insert('', 'end', values=item)
+
+            # and adjust column widths if necessary
+            for idx, val in enumerate(item):
+                iwidth = Font().measure(val)
+                if self.tree.column(self.dataCols[idx], 'width') < iwidth:
+                    self.tree.column(self.dataCols[idx], width=iwidth)
+
+    def _column_sort(self, col, descending=False):
+
+        # grab values to sort as a list of tuples (column value, column id)
+        # e.g. [('Argentina', 'I001'), ('Australia', 'I002'), ('Brazil', 'I003')]
+        data = [(self.tree.set(child, col), child) for child in self.tree.get_children('')]
+
+        # reorder data
+        # tkinter looks after moving other items in
+        # the same row
+        data.sort(reverse=descending)
+        for indx, item in enumerate(data):
+            self.tree.move(item[1], '', indx)  # item[1] = item Identifier
+
+        # reverse sort direction for next sort operation
+        MCListDemo.SortDir = not descending
 
 #Run
 if __name__ == "__main__":
