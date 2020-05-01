@@ -7,6 +7,7 @@ import numpy as np
 import pandas as pandas
 from matplotlib import pyplot as plt 
 
+
 import tkinter as tk
 
 
@@ -23,54 +24,65 @@ def DisplayGraphs(graphName):
     if(graphName == 'class'):
 
         plot_series = df.loc[:,'class'].rename('')
-        plot_series.value_counts().plot.pie()
+        plot_series.value_counts().plot.pie(autopct='%1.0f%%')
 
     elif(graphName == 'size'):
 
         plot_series = df.loc[:,'size'].rename('')
-        plot_series.value_counts().plot.pie()
+        plot_series.value_counts().plot.pie(autopct='%1.0f%%')
     
     elif(graphName == 'distribution'):
 
         plot_series = df.loc[:,'distribution'].rename('')
-        plot_series.value_counts().plot.pie()
+        plot_series.value_counts().plot.pie(autopct='%1.0f%%')
         
     elif(graphName == 'activity'):
-        df.loc[:,'activity'].plot.kde()
+        plot_series = df.loc[:,'activity'].rename('')
+        plot_series = plot_series.replace({1 : 'reduced', 2 : 'unchanged'})
+        plot_series.value_counts().plot.pie(autopct='%1.0f%%')
         
     elif(graphName == 'evolution'):
-        df.loc[:,'activity'].plot.kde()
+        plot_series = df.loc[:,'evolution'].rename('')
+        plot_series = plot_series.replace({1 : 'decay', 2 : 'no growth', 3 : 'growth'})
+        plot_series.value_counts().plot.pie(autopct='%1.0f%%')
         
     elif(graphName == 'previous_24_hours'):
-        df.loc[:,'activity'].plot.kde()
+        plot_series = df.loc[:,'previous_24_hours'].rename('')
+        plot_series = plot_series.replace({1 : '< M1', 2 : 'M1', 3 : '>M1'})
+        plot_series.value_counts().plot.pie(autopct='%1.0f%%')
         
     elif(graphName == 'historical_complexity'):
-        df.loc[:,'activity'].plot.kde()
+        plot_series = df.loc[:,'historical_complexity'].rename('')
+        plot_series = plot_series.replace({1 : 'Yes', 2 : 'No'})
+        plot_series.value_counts().plot.pie(autopct='%1.0f%%')
         
     elif(graphName == 'become_complex'):
-        df.loc[:,'activity'].plot.kde()
+        plot_series = df.loc[:,'become_complex'].rename('')
+        plot_series = plot_series.replace({1 : 'Yes', 2 : 'No'})
+        plot_series.value_counts().plot.pie(autopct='%1.0f%%')
         
     elif(graphName == 'area'):
-        df.loc[:,'activity'].plot.kde()
+        plot_series = df.loc[:,'area'].rename('')
+        plot_series = plot_series.replace({1 : 'Small', 2 : 'Large'})
+        plot_series.value_counts().plot.pie(autopct='%1.0f%%')
         
     elif(graphName == 'area_of_largest_spot'):
-        df.loc[:,'activity'].plot.kde()
+        plot_series = df.loc[:,'area_of_largest_spot'].rename('')
+        plot_series = plot_series.replace({1 : '<=5', 2 : '>5'})
+        plot_series.value_counts().plot.pie(autopct='%1.0f%%')
         
     elif(graphName == 'cClassFlares'):
-        df.loc[:,'activity'].plot.kde()
+        plot_series = df.loc[:,'cClassFlares'].rename('')
+        plot_series.value_counts().plot.pie(autopct='%1.0f%%')
 
     elif(graphName == 'mClassFlares'):
-        df.loc[:,'activity'].plot.kde()
+        plot_series = df.loc[:,'mClassFlares'].rename('')
+        plot_series.value_counts().plot.pie(autopct='%1.0f%%')
         
     elif(graphName == 'xClassFlares'):
-        df.loc[:,'activity'].plot.kde()
+        plot_series = df.loc[:,'xClassFlares'].rename('')
+        plot_series.value_counts().plot.pie(autopct='%1.0f%%')
 
-    # df.loc[:,'activity'].plot.kde()
-    # df.loc[:,'activity'].plot.hist(bins=5)
-    # df.loc[:,'activity'].value_counts().plot.bar()
-    # df.loc[:,'activity'].value_counts().plot.pie()
-    # df.plot.scatter(x='activity', y='evolution')
-    #plt.figure(); df.plot(); plt.legend(loc='activity')
 
     plt.show() 
 
