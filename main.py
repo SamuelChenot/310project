@@ -254,26 +254,26 @@ class GraphsFrame(tk.Frame):
         #Formats the size of the window
         master.geometry('{}x{}'.format(400, 600))
         tk.Frame.configure(self,bg="gray45")
-        tk.Button(self, text="Go back to start page", padx=10, pady=10,
+        tk.Button(self, text="Go back to start page",
                   command=lambda: master.switch_frame(StartPage)).pack()
 
 
         name = tk.StringVar()
         
         #Add button
-        self.logbtn = Button(self, text="Get Class", bg = "gray45", command=lambda: DisplayGraphs('class')).pack()
-        self.logbtn = Button(self, text="Get Size", bg = "gray45", command=lambda: DisplayGraphs('size')).pack()
-        self.logbtn = Button(self, text="Get Distribution", bg = "gray45", command=lambda: DisplayGraphs('distribution')).pack()
-        self.logbtn = Button(self, text="Get activity", bg = "gray45", command=lambda: DisplayGraphs('activity')).pack()
-        self.logbtn = Button(self, text="Get evolution", bg = "gray45", command=lambda: DisplayGraphs('evolution')).pack()
-        self.logbtn = Button(self, text="Get previous_24_hours", bg = "gray45", command=lambda: DisplayGraphs('previous_24_hours')).pack()
-        self.logbtn = Button(self, text="Get historical_complexity", bg = "gray45", command=lambda: DisplayGraphs('historical_complexity')).pack()
-        self.logbtn = Button(self, text="Get become_complex", bg = "gray45", command=lambda: DisplayGraphs('become_complex')).pack()
-        self.logbtn = Button(self, text="Get area", bg = "gray45", command=lambda: DisplayGraphs('area')).pack()
-        self.logbtn = Button(self, text="Get area_of_largest_spot", bg = "gray45", command=lambda: DisplayGraphs('area_of_largest_spot')).pack()
-        self.logbtn = Button(self, text="Get cClassFlares", bg = "gray45", command=lambda: DisplayGraphs('cClassFlares')).pack()
-        self.logbtn = Button(self, text="Get mClassFlares", bg = "gray45", command=lambda: DisplayGraphs('mClassFlares')).pack()
-        self.logbtn = Button(self, text="Get xClassFlares", bg = "gray45", command=lambda: DisplayGraphs('xClassFlares')).pack()
+        self.logbtn = Button(self, text="Get Class", bg = "gray45", padx=5, pady=5, command=lambda: DisplayGraphs('class')).pack()
+        self.logbtn = Button(self, text="Get Size", bg = "gray45", padx=5, pady=5, command=lambda: DisplayGraphs('size')).pack()
+        self.logbtn = Button(self, text="Get Distribution", bg = "gray45", padx=5, pady=5, command=lambda: DisplayGraphs('distribution')).pack()
+        self.logbtn = Button(self, text="Get activity", bg = "gray45", padx=5, pady=5, command=lambda: DisplayGraphs('activity')).pack()
+        self.logbtn = Button(self, text="Get evolution", bg = "gray45", padx=5, pady=5, command=lambda: DisplayGraphs('evolution')).pack()
+        self.logbtn = Button(self, text="Get previous_24_hours", bg = "gray45", padx=5, pady=5, command=lambda: DisplayGraphs('previous_24_hours')).pack()
+        self.logbtn = Button(self, text="Get historical_complexity", bg = "gray45", padx=5, pady=5, command=lambda: DisplayGraphs('historical_complexity')).pack()
+        self.logbtn = Button(self, text="Get become_complex", bg = "gray45", padx=5, pady=5, command=lambda: DisplayGraphs('become_complex')).pack()
+        self.logbtn = Button(self, text="Get area", bg = "gray45", padx=5, pady=5, command=lambda: DisplayGraphs('area')).pack()
+        self.logbtn = Button(self, text="Get area_of_largest_spot", bg = "gray45", padx=5, pady=5, command=lambda: DisplayGraphs('area_of_largest_spot')).pack()
+        self.logbtn = Button(self, text="Get cClassFlares", bg = "gray45", padx=5, pady=5, command=lambda: DisplayGraphs('cClassFlares')).pack()
+        self.logbtn = Button(self, text="Get mClassFlares", bg = "gray45", padx=5, pady=5, command=lambda: DisplayGraphs('mClassFlares')).pack()
+        self.logbtn = Button(self, text="Get xClassFlares", bg = "gray45", padx=5, pady=5, command=lambda: DisplayGraphs('xClassFlares')).pack()
 
 
         self.pack()
