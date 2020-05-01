@@ -172,8 +172,8 @@ class SampleApp(tk.Tk):
     def __init__(self):
         tk.Tk.__init__(self)
         self._frame = None
-        self.switch_frame(StartPage)
         self.draw_MsgPanel()
+        self.switch_frame(StartPage)
 
     def switch_frame(self, frame_class):
         new_frame = frame_class(self)
