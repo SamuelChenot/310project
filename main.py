@@ -186,7 +186,7 @@ class SampleApp(tk.Tk):
         tk.Tk.__init__(self)
         self._frame = None
         self.draw_MsgPanel()
-        self.switch_frame(StartPage)
+        self.switch_frame(InitialPage)
 
     def switch_frame(self, frame_class):
         new_frame = frame_class(self)
@@ -208,6 +208,18 @@ class SampleApp(tk.Tk):
         # self._create_demo_panel()
 
 
+class InitialPage(tk.Frame):
+    def __init__(self, master):
+        tk.Frame.__init__(self, master)
+        #Formats the size of the window
+        tk.Frame.configure(self,bg="gray45")
+        tk.Frame.configure(master,bg="gray45")
+        master.geometry('{}x{}'.format(400, 600))
+
+        self.photo = ImageTk.PhotoImage(Image.open("img/flare_start.jpg"))
+        tk.Button(self, image = self.photo, compound="top",command=lambda: master.switch_frame(StartPage)).pack(side="top", fill="x", pady=5)
+
+
 class StartPage(tk.Frame):
     def __init__(self, master):
         tk.Frame.__init__(self, master)
@@ -227,7 +239,10 @@ class StartPage(tk.Frame):
                   command=lambda: master.switch_frame(GraphsFrame)).pack()
         self.logbtn = Label(self,bg="gray45").pack()
         tk.Button(self, text="Data Statistics",bg="gray45", padx=10, pady=10,
-                  command=lambda: master.switch_frame(StatsFrame)).pack()        
+                  command=lambda: master.switch_frame(StatsFrame)).pack()  
+
+        self.photo = ImageTk.PhotoImage(Image.open("img/flare_start.jpg"))
+        tk.Label(self, image = self.photo, compound="top").pack(side="top", fill="x", pady=5)      
 
 class GraphsFrame(tk.Frame):
     def __init__(self, master):
