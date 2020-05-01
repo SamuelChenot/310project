@@ -5,8 +5,10 @@ from PIL import ImageTk, Image
 
 import numpy as np
 import pandas as pandas
+
 from matplotlib import pyplot as plt
 from tkinter.font import Font
+
 import tkinter as tk
 
 df = pandas.read_csv("flare1.csv")
@@ -117,54 +119,65 @@ def DisplayGraphs(graphName):
     if(graphName == 'class'):
 
         plot_series = df.loc[:,'class'].rename('')
-        plot_series.value_counts().plot.pie()
+        plot_series.value_counts().plot.pie(autopct='%1.0f%%')
 
     elif(graphName == 'size'):
 
         plot_series = df.loc[:,'size'].rename('')
-        plot_series.value_counts().plot.pie()
+        plot_series.value_counts().plot.pie(autopct='%1.0f%%')
     
     elif(graphName == 'distribution'):
 
         plot_series = df.loc[:,'distribution'].rename('')
-        plot_series.value_counts().plot.pie()
+        plot_series.value_counts().plot.pie(autopct='%1.0f%%')
         
     elif(graphName == 'activity'):
-        df.loc[:,'activity'].plot.kde()
+        plot_series = df.loc[:,'activity'].rename('')
+        plot_series = plot_series.replace({1 : 'reduced', 2 : 'unchanged'})
+        plot_series.value_counts().plot.pie(autopct='%1.0f%%')
         
     elif(graphName == 'evolution'):
-        df.loc[:,'activity'].plot.kde()
+        plot_series = df.loc[:,'evolution'].rename('')
+        plot_series = plot_series.replace({1 : 'decay', 2 : 'no growth', 3 : 'growth'})
+        plot_series.value_counts().plot.pie(autopct='%1.0f%%')
         
     elif(graphName == 'previous_24_hours'):
-        df.loc[:,'activity'].plot.kde()
+        plot_series = df.loc[:,'previous_24_hours'].rename('')
+        plot_series = plot_series.replace({1 : '< M1', 2 : 'M1', 3 : '>M1'})
+        plot_series.value_counts().plot.pie(autopct='%1.0f%%')
         
     elif(graphName == 'historical_complexity'):
-        df.loc[:,'activity'].plot.kde()
+        plot_series = df.loc[:,'historical_complexity'].rename('')
+        plot_series = plot_series.replace({1 : 'Yes', 2 : 'No'})
+        plot_series.value_counts().plot.pie(autopct='%1.0f%%')
         
     elif(graphName == 'become_complex'):
-        df.loc[:,'activity'].plot.kde()
+        plot_series = df.loc[:,'become_complex'].rename('')
+        plot_series = plot_series.replace({1 : 'Yes', 2 : 'No'})
+        plot_series.value_counts().plot.pie(autopct='%1.0f%%')
         
     elif(graphName == 'area'):
-        df.loc[:,'activity'].plot.kde()
+        plot_series = df.loc[:,'area'].rename('')
+        plot_series = plot_series.replace({1 : 'Small', 2 : 'Large'})
+        plot_series.value_counts().plot.pie(autopct='%1.0f%%')
         
     elif(graphName == 'area_of_largest_spot'):
-        df.loc[:,'activity'].plot.kde()
+        plot_series = df.loc[:,'area_of_largest_spot'].rename('')
+        plot_series = plot_series.replace({1 : '<=5', 2 : '>5'})
+        plot_series.value_counts().plot.pie(autopct='%1.0f%%')
         
     elif(graphName == 'cClassFlares'):
-        df.loc[:,'activity'].plot.kde()
+        plot_series = df.loc[:,'cClassFlares'].rename('')
+        plot_series.value_counts().plot.pie(autopct='%1.0f%%')
 
     elif(graphName == 'mClassFlares'):
-        df.loc[:,'activity'].plot.kde()
+        plot_series = df.loc[:,'mClassFlares'].rename('')
+        plot_series.value_counts().plot.pie(autopct='%1.0f%%')
         
     elif(graphName == 'xClassFlares'):
-        df.loc[:,'activity'].plot.kde()
+        plot_series = df.loc[:,'xClassFlares'].rename('')
+        plot_series.value_counts().plot.pie(autopct='%1.0f%%')
 
-    # df.loc[:,'activity'].plot.kde()
-    # df.loc[:,'activity'].plot.hist(bins=5)
-    # df.loc[:,'activity'].value_counts().plot.bar()
-    # df.loc[:,'activity'].value_counts().plot.pie()
-    # df.plot.scatter(x='activity', y='evolution')
-    #plt.figure(); df.plot(); plt.legend(loc='activity')
 
     plt.show() 
 
@@ -177,7 +190,7 @@ class SampleApp(tk.Tk):
         tk.Tk.__init__(self)
         self._frame = None
         self.draw_MsgPanel()
-        self.switch_frame(StartPage)
+        self.switch_frame(InitialPage)
 
     def switch_frame(self, frame_class):
         new_frame = frame_class(self)
@@ -189,14 +202,26 @@ class SampleApp(tk.Tk):
 
     def draw_MsgPanel(self):
         MsgPanel(self,
-                 ["One of the new Ttk widgets is a tree widget ",
-                  "which can be configured to display multiple columns of data without ",
-                  "displaying the tree itself. This is a simple way to build a listbox that has multiple ",
-                  "columns.\n\n",
-                  "Click a column heading to re-sort the data. ",
-                  "Drag a column boundary to resize a column."])
+                 ["This app is intended to display solar flare data ",
+                  "the data you can currently see is class, size, distribution, activity",
+                  "evolution, previous 24 hours, historical compexity, became complex, area",
+                  "area of largest spot, number of C-class, M-class, and X-class flares.\n\n",
+                  "Within the solar flare information tab we have the direct list of data availible for the flare.",
+                  "The app also contains pie charts of each value, with a data statistics page aswell."])
 
         # self._create_demo_panel()
+
+
+class InitialPage(tk.Frame):
+    def __init__(self, master):
+        tk.Frame.__init__(self, master)
+        #Formats the size of the window
+        tk.Frame.configure(self,bg="gray45")
+        tk.Frame.configure(master,bg="gray45")
+        master.geometry('{}x{}'.format(400, 600))
+
+        self.photo = ImageTk.PhotoImage(Image.open("img/flare_start.jpg"))
+        tk.Button(self, image = self.photo, compound="top",command=lambda: master.switch_frame(StartPage)).pack(side="top", fill="x", pady=5)
 
 
 class StartPage(tk.Frame):
@@ -210,13 +235,18 @@ class StartPage(tk.Frame):
 
 
 
-        tk.Label(self, text="Solar Flares",bg="gray45", font=('Helvetica', 18, "bold")).pack(side="top", fill="x", pady=5)
-        tk.Button(self, text="Solar Flare Information",bg="gray45",
+        tk.Label(self, text="Solar Flares",bg="gray45", font=('Helvetica', 18, "bold"), padx=10, pady=10).pack(side="top", fill="x", pady=5)
+        tk.Button(self, text="Solar Flare Information",bg="gray45", padx=10, pady=10,
                   command=lambda: master.switch_frame(SolarFlareFrame)).pack()
-        tk.Button(self, text="Graphs",bg="gray45",
+        self.logbtn = Label(self,bg="gray45").pack()
+        tk.Button(self, text="Graphs",bg="gray45", padx=10, pady=10,
                   command=lambda: master.switch_frame(GraphsFrame)).pack()
-        tk.Button(self, text="Data Statistics",bg="gray45",
-                  command=lambda: master.switch_frame(StatsFrame)).pack()        
+        self.logbtn = Label(self,bg="gray45").pack()
+        tk.Button(self, text="Data Statistics",bg="gray45", padx=10, pady=10,
+                  command=lambda: master.switch_frame(StatsFrame)).pack()  
+
+        self.photo = ImageTk.PhotoImage(Image.open("img/flare_start.jpg"))
+        tk.Label(self, image = self.photo, compound="top").pack(side="top", fill="x", pady=5)      
 
 class GraphsFrame(tk.Frame):
     def __init__(self, master):
@@ -224,7 +254,7 @@ class GraphsFrame(tk.Frame):
         #Formats the size of the window
         master.geometry('{}x{}'.format(400, 600))
         tk.Frame.configure(self,bg="gray45")
-        tk.Button(self, text="Go back to start page",
+        tk.Button(self, text="Go back to start page", padx=10, pady=10,
                   command=lambda: master.switch_frame(StartPage)).pack()
 
 
