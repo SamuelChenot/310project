@@ -204,10 +204,10 @@ class SampleApp(tk.Tk):
         MsgPanel(self,
                  ["This app is intended to display solar flare data ",
                   "the data you can currently see is class, size, distribution, activity",
-                  "evolution, previous 24 hours, historical compexity, became complex, area",
+                  "evolution, previous 24 hours, historical complexity, became complex, area",
                   "area of largest spot, number of C-class, M-class, and X-class flares.\n\n",
-                  "Within the solar flare information tab we have the direct list of data availible for the flare.",
-                  "The app also contains pie charts of each value, with a data statistics page aswell."])
+                  "Within the solar flare data tab we have the direct list of data available for the flare.",
+                  "The app also contains pie charts of each value, with a data statistics page as well."])
 
         # self._create_demo_panel()
 
@@ -236,17 +236,20 @@ class StartPage(tk.Frame):
 
 
         tk.Label(self, text="Solar Flares",bg="gray45", font=('Helvetica', 18, "bold"), padx=10, pady=10).pack(side="top", fill="x", pady=5)
-        tk.Button(self, text="Solar Flare Information",bg="gray45", padx=10, pady=10,
+        tk.Button(self, text="Solar Flare Data", bg="gray45", padx=10, pady=10,
                   command=lambda: master.switch_frame(SolarFlareFrame)).pack()
-        self.logbtn = Label(self,bg="gray45").pack()
-        tk.Button(self, text="Graphs",bg="gray45", padx=10, pady=10,
+        self.logbtn = Label(self, bg="gray45").pack()
+        tk.Button(self, text="Graphs", bg="gray45", padx=10, pady=10,
                   command=lambda: master.switch_frame(GraphsFrame)).pack()
-        self.logbtn = Label(self,bg="gray45").pack()
-        tk.Button(self, text="Data Statistics",bg="gray45", padx=10, pady=10,
-                  command=lambda: master.switch_frame(StatsFrame)).pack()  
-
+        self.logbtn = Label(self, bg="gray45").pack()
+        tk.Button(self, text="Data Statistics", bg="gray45", padx=10, pady=10,
+                  command=lambda: master.switch_frame(StatsFrame)).pack()
+        self.logbtn = Label(self, bg="gray45").pack()
+        tk.Button(self, text="Flare Class Predictor", bg="gray45", padx=10, pady=10,
+                  command=lambda: master.switch_frame(ClassPredictor)).pack()
+        self.logbtn = Label(self, bg="gray45").pack()
         self.photo = ImageTk.PhotoImage(Image.open("img/flare_start.jpg"))
-        tk.Label(self, image = self.photo, compound="top").pack(side="top", fill="x", pady=5)      
+        tk.Label(self, image=self.photo, compound="top").pack(side="top", fill="x", pady=5)
 
 class GraphsFrame(tk.Frame):
     def __init__(self, master):
@@ -358,6 +361,42 @@ class StatsFrame(tk.Frame):
 
         # reverse sort direction for next sort operation
         MCListDemo.SortDir = not descending
+
+class ClassPredictor(tk.Frame):
+    def __init__(self, master):
+        tk.Frame.__init__(self, master)
+        #Formats the size of the window
+        master.geometry('{}x{}'.format(400, 600))
+        tk.Frame.configure(self,bg="gray45")
+        tk.Button(self, text="Go back to start page",
+                  command=lambda: master.switch_frame(StartPage)).pack()
+
+        def show_entry_fields():
+            print("First Name: %s\nLast Name: %s" % (e1.get(), e2.get()))
+
+        tk.Label(master,
+                 text="First Name").grid(row=0)
+        tk.Label(master,
+                 text="Last Name").grid(row=1)
+
+        e1 = tk.Entry(master)
+        e2 = tk.Entry(master)
+
+        e1.grid(row=0, column=1)
+        e2.grid(row=1, column=1)
+
+        tk.Button(master,
+                  text='Quit',
+                  command=master.quit).grid(row=3,
+                                            column=0,
+                                            sticky=tk.W,
+                                            pady=4)
+        tk.Button(master,
+                  text='Show', command=show_entry_fields).grid(row=3,
+                                                               column=1,
+                                                               sticky=tk.W,
+                                                               pady=4)
+
 
 #Run
 if __name__ == "__main__":
