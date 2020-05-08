@@ -16,6 +16,45 @@ stats = df.describe()
 stats.index.name = ''
 stats.reset_index(inplace=True)
 
+flareClass = ""
+size = ""
+distribution = ""
+activity = ""
+evolution = ""
+previous_24_hours = ""
+historical_complexity = ""
+become_complex = ""
+area = ""
+area_of_largest_spot = ""
+cClassFlares = ""
+mClassFlares = ""
+xClassFlares = ""
+
+
+def predict_flare(flareClass, size, distribution, activity, evolution, previous_24_hours, historical_complexity, become_complex, area, area_of_largest_spot, cClassFlares, mClassFlares, xClassFlares):
+    flareClass = 0
+    cClass = int(str(cClassFlares.get()))
+    if(cClass >= 0.5):
+        flareClass = 0
+    elif(cClass <= 1.5):
+        flareClass = 1
+    else:
+        flareClass = 2
+
+    popup = tk.Tk()
+    popup.wm_title("Flare Predictor")
+
+    B1 = ttk.Button(popup, text="Exit", command = popup.destroy)
+    
+    scrollbar = Scrollbar(popup)
+
+    scrollbar.pack( side = RIGHT, fill = Y )
+
+    info = Listbox(popup, yscrollcommand = scrollbar.set )
+    info.insert(END, 'Flare Class: ' + str(flareClass))
+
+    info.pack( side = LEFT, fill = BOTH )
+    scrollbar.config( command = info.yview )
 
 class MsgPanel(ttk.Frame):
     def __init__(self, master, msgtxt):
@@ -39,7 +78,7 @@ class SolarFlareFrame(tk.Frame):
         self.isapp = isapp
         self._create_demo_panel()
         # Formats the size of the window
-        self.master.geometry('{}x{}'.format(400, 600))
+        self.master.geometry('{}x{}'.format(800, 1000))
         tk.Frame.configure(self, bg="gray45")
         tk.Button(self, text="Go back to start page",
                   command=lambda: self.master.switch_frame(StartPage)).pack()
@@ -218,7 +257,7 @@ class InitialPage(tk.Frame):
         #Formats the size of the window
         tk.Frame.configure(self,bg="gray45")
         tk.Frame.configure(master,bg="gray45")
-        master.geometry('{}x{}'.format(400, 600))
+        master.geometry('{}x{}'.format(800, 1000))
 
         self.photo = ImageTk.PhotoImage(Image.open("img/flare_start.jpg"))
         tk.Button(self, image = self.photo, compound="top",command=lambda: master.switch_frame(StartPage)).pack(side="top", fill="x", pady=5)
@@ -230,7 +269,7 @@ class StartPage(tk.Frame):
         #Formats the size of the window
         tk.Frame.configure(self,bg="gray45")
         tk.Frame.configure(master,bg="gray45")
-        master.geometry('{}x{}'.format(400, 600))
+        master.geometry('{}x{}'.format(800, 1000))
 
 
 
@@ -255,7 +294,7 @@ class GraphsFrame(tk.Frame):
     def __init__(self, master):
         tk.Frame.__init__(self, master)
         #Formats the size of the window
-        master.geometry('{}x{}'.format(400, 600))
+        master.geometry('{}x{}'.format(800, 1000))
         tk.Frame.configure(self,bg="gray45")
         tk.Button(self, text="Go back to start page",
                   command=lambda: master.switch_frame(StartPage)).pack()
@@ -293,7 +332,8 @@ class StatsFrame(tk.Frame):
         self.isapp = isapp
         self._create_demo_panel()
         # Formats the size of the window
-        self.master.geometry('{}x{}'.format(400, 600))
+        self.master.geometry('{}x{}'.format(800, 1000))
+
         tk.Frame.configure(self, bg="gray45")
         tk.Button(self, text="Go back to start page",
                   command=lambda: self.master.switch_frame(StartPage)).pack()
@@ -366,37 +406,72 @@ class ClassPredictor(tk.Frame):
     def __init__(self, master):
         tk.Frame.__init__(self, master)
         #Formats the size of the window
-        master.geometry('{}x{}'.format(400, 600))
+        master.geometry('{}x{}'.format(800, 1000))
         tk.Frame.configure(self,bg="gray45")
         tk.Button(self, text="Go back to start page",
                   command=lambda: master.switch_frame(StartPage)).pack()
 
-        def show_entry_fields():
-            print("First Name: %s\nLast Name: %s" % (e1.get(), e2.get()))
+        flareClass = tk.StringVar()
+        size = tk.StringVar()
+        distribution = tk.StringVar()
+        activity = tk.StringVar()
+        evolution = tk.StringVar()
+        previous_24_hours = tk.StringVar()
+        historical_complexity = tk.StringVar()
+        become_complex = tk.StringVar()
+        area = tk.StringVar()
+        area_of_largest_spot = tk.StringVar()
+        cClassFlares = tk.StringVar()
+        mClassFlares = tk.StringVar()
+        xClassFlares = tk.StringVar()
 
-        tk.Label(master,
-                 text="First Name").grid(row=0)
-        tk.Label(master,
-                 text="Last Name").grid(row=1)
+        label_class = Label(self, text = 'Class').pack()
+        flare_entry = tk.Entry(self, textvariable = flareClass).pack()
 
-        e1 = tk.Entry(master)
-        e2 = tk.Entry(master)
+        label_size = Label(self, text = 'Size').pack()
+        size_entry = tk.Entry(self, textvariable = size).pack()
 
-        e1.grid(row=0, column=1)
-        e2.grid(row=1, column=1)
+        label_distribution = Label(self, text = 'Distribution').pack()
+        distribution_entry = tk.Entry(self, textvariable = distribution).pack()
 
-        tk.Button(master,
-                  text='Quit',
-                  command=master.quit).grid(row=3,
-                                            column=0,
-                                            sticky=tk.W,
-                                            pady=4)
-        tk.Button(master,
-                  text='Show', command=show_entry_fields).grid(row=3,
-                                                               column=1,
-                                                               sticky=tk.W,
-                                                               pady=4)
+        label_activity = Label(self, text = 'Activity').pack()
+        activity_entry = tk.Entry(self, textvariable = activity).pack()
 
+        label_evolution = Label(self, text = 'Evolution').pack()
+        evolution_entry = tk.Entry(self, textvariable = evolution).pack()
+
+        label_previous_24_hours = Label(self, text = 'Previous 24 Hours').pack()
+        previous_24_hours_entry = tk.Entry(self, textvariable = previous_24_hours).pack()
+
+        label_historical_complexity = Label(self, text = 'historical_complexity').pack()
+        historical_complexity_entry = tk.Entry(self, textvariable = historical_complexity).pack()
+
+        label_become_complex = Label(self, text = 'become_complex').pack()
+        become_complex_entry = tk.Entry(self, textvariable = become_complex).pack()
+
+        label_area = Label(self, text = 'area').pack()
+        area_entry = tk.Entry(self, textvariable = area).pack()
+
+        label_area_of_largest_spot = Label(self, text = 'area_of_largest_spot').pack()
+        area_of_largest_spot_entry = tk.Entry(self, textvariable = area_of_largest_spot).pack()
+
+        label_cClassFlares = Label(self, text = 'cClassFlares').pack()
+        cClassFlares_entry = tk.Entry(self, textvariable = cClassFlares).pack()
+
+        label_mClassFlares = Label(self, text = 'mClassFlares').pack()
+        mClassFlares_entry = tk.Entry(self, textvariable = mClassFlares).pack()
+
+        label_xClassFlares = Label(self, text = 'xClassFlares').pack()
+        xClassFlares_entry = tk.Entry(self, textvariable = xClassFlares).pack()
+
+
+        self.logbtn = Button(self, text="Predict", bg = "gray45", command=lambda: predict_flare(flareClass, size, distribution, activity, evolution, previous_24_hours, historical_complexity, become_complex, area, area_of_largest_spot, cClassFlares, mClassFlares, xClassFlares)).pack()
+
+
+        self.pack()
+        
+
+        
 
 #Run
 if __name__ == "__main__":
