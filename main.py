@@ -11,6 +11,17 @@ from tkinter.font import Font
 
 import tkinter as tk
 
+import pandas as pd
+from treeviz import tree_print
+from sklearn import tree
+from sklearn.metrics import accuracy_score
+# sklearn provides manipulation of training sets...here we do train/test split
+from sklearn.model_selection import train_test_split
+from sklearn.model_selection import cross_val_score
+from sklearn.model_selection import GridSearchCV
+from sklearn.metrics import confusion_matrix
+from bootstrap import bootstrap
+
 df = pandas.read_csv("flare1.csv")
 stats = df.describe()
 stats.index.name = ''
@@ -30,16 +41,42 @@ cClassFlares = ""
 mClassFlares = ""
 xClassFlares = ""
 
+def predict(self, fit=None, features=None, probabilities=False):
+        '''
+        Predict the class labels (e.g., endmember types) based on an existing
+        tree fit and new predictive features. Arguments:
+            fit         The result of tree.DecisionTreeClassifier.fit(); uses
+                        the last fit model if None.
+            features    The new X array/ new predictive features to use;
+                        should be (p x n), n samples with p features.
+        '''
+        if fit is None: fit = self.last_fit
+        if features is None: features = self.x_features_array
+        if probabilities:
+            shp = self.y_raster.shape
+            return fit.predict(features.T).T.reshape((self.n_labels, shp[1], shp[2]))
+
+        return fit.predict(features.T).reshape(self.y_raster.shape) 
 
 def predict_flare(flareClass, size, distribution, activity, evolution, previous_24_hours, historical_complexity, become_complex, area, area_of_largest_spot, cClassFlares, mClassFlares, xClassFlares):
-    flareClass = 0
-    cClass = int(str(cClassFlares.get()))
-    if(cClass >= 0.5):
-        flareClass = 0
-    elif(cClass <= 1.5):
-        flareClass = 1
+    value = 0
+    flareClass = int(str(flareClass.get()))
+    size = int(str(size.get()))
+    #reduced the size of the tree to make this easier
+    if(size <= 1.5):
+        value = 6
+    elif(flareClass <= 0.5):
+        if(size <= 2.5):
+            value = 3
+        else:
+            value = 3
+    elif(flareClass <= 1.5):
+        value = 1
     else:
-        flareClass = 2
+        value = 2
+    
+
+    
 
     popup = tk.Tk()
     popup.wm_title("Flare Predictor")
@@ -51,7 +88,7 @@ def predict_flare(flareClass, size, distribution, activity, evolution, previous_
     scrollbar.pack( side = RIGHT, fill = Y )
 
     info = Listbox(popup, yscrollcommand = scrollbar.set )
-    info.insert(END, 'Flare Class: ' + str(flareClass))
+    info.insert(END, 'Flare Class: ' + str(value))
 
     info.pack( side = LEFT, fill = BOTH )
     scrollbar.config( command = info.yview )
